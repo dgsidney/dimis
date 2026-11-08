@@ -1,0 +1,53 @@
+/* Estilos customizados complementares para o site dimis */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Detalhes de animação e estados */
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Seleção de texto harmoniosa */
+::selection {
+  background-color: #bbf7d0;
+  color: #14532d;
+}
+
+/* Foco acessível */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #15803d;
+  outline-offset: 2px;
+}

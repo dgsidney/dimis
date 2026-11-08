@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>dimis — Gerenciador Multi WhatsApp Web para Windows</title>
+  <meta name="description" content="Aplicativo desktop leve e gratuito para gerenciar múltiplos números do WhatsApp Web no mesmo computador com sessões isoladas, tela dividida e notificações.">
+  <meta name="theme-color" content="#15803d">
+  
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans (mesma tipografia moderna de abraceanimal) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              cream: '#FAF9F5',
+              green: {
+                50: '#f0fdf4',
+                100: '#dcfce7',
+                200: '#bbf7d0',
+                600: '#16a34a',
+                700: '#15803d',
+                800: '#166534',
+                900: '#14532d',
+              },
+              warm: {
+                50: '#fffbeb',
+                100: '#fef3c7',
+                500: '#f59e0b',
+                700: '#b45309',
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-brand-cream text-stone-800 font-sans antialiased selection:bg-brand-green-200 selection:text-brand-green-900 min-h-screen flex flex-col overflow-x-hidden">
+
+  <!-- Header / Navbar -->
+  <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-stone-200/80 shadow-xs transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo Oficial com Link para Home -->
+        <a href="#" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-brand-green-600 rounded-xl p-1">
+          <img src="icon.png" alt="Logomarca Oficial dimis" class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl object-contain shadow-xs ring-2 ring-brand-green-600/30 group-hover:scale-105 transition-transform" width="48" height="48" loading="eager">
+          <div class="flex flex-col">
+            <span class="font-extrabold text-xl sm:text-2xl tracking-tight text-brand-green-900 leading-none">
+              dimis
+            </span>
+            <span class="text-[11px] font-bold text-brand-green-700 uppercase tracking-wider mt-1">
+              Multi WhatsApp Desktop
+            </span>
+          </div>
+        </a>
+
+        <!-- Navegação Desktop -->
+        <nav class="hidden lg:flex items-center gap-1" aria-label="Navegação Principal">
+          <a href="#sobre" class="px-3.5 py-2 text-sm font-semibold text-stone-700 hover:text-brand-green-800 hover:bg-brand-green-50 rounded-lg transition-colors">Sobre</a>
+          <a href="#comparativo" class="px-3.5 py-2 text-sm font-semibold text-stone-700 hover:text-brand-green-800 hover:bg-brand-green-50 rounded-lg transition-colors">Comparativo</a>
+          <a href="#recursos" class="px-3.5 py-2 text-sm font-semibold text-stone-700 hover:text-brand-green-800 hover:bg-brand-green-50 rounded-lg transition-colors">Recursos</a>
+          <a href="#download" class="px-3.5 py-2 text-sm font-semibold text-stone-700 hover:text-brand-green-800 hover:bg-brand-green-50 rounded-lg transition-colors">Download</a>
+          <a href="#doacao" class="px-3.5 py-2 text-sm font-semibold text-brand-green-800 hover:bg-brand-green-50 rounded-lg transition-colors flex items-center gap-1.5">
+            <span>Apoiar via Pix</span>
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          </a>
+          <a href="#faq" class="px-3.5 py-2 text-sm font-semibold text-stone-700 hover:text-brand-green-800 hover:bg-brand-green-50 rounded-lg transition-colors">Dúvidas</a>
+        </nav>
+
+        <!-- Ação Direta Direita -->
+        <div class="hidden sm:flex items-center gap-3">
+          <a href="#download" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white bg-brand-green-700 hover:bg-brand-green-800 shadow-sm hover:shadow transition-all active:scale-[0.98]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            <span>Baixar Grátis</span>
+          </a>
+        </div>
+
+        <!-- Botão Menu Mobile -->
+        <button id="mobile-menu-btn" type="button" class="lg:hidden p-2 rounded-lg text-stone-600 hover:text-stone-900 hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-brand-green-600" aria-label="Abrir menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Menu Dropdown Mobile -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-stone-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-lg">
+      <a href="#sobre" class="block px-3 py-2 rounded-lg text-base font-semibold text-stone-700 hover:bg-brand-green-50">Sobre</a>
+      <a href="#comparativo" class="block px-3 py-2 rounded-lg text-base font-semibold text-stone-700 hover:bg-brand-green-50">Comparativo</a>
+      <a href="#recursos" class="block px-3 py-2 rounded-lg text-base font-semibold text-stone-700 hover:bg-brand-green-50">Recursos</a>
+      <a href="#download" class="block px-3 py-2 rounded-lg text-base font-semibold text-stone-700 hover:bg-brand-green-50">Download Windows</a>
+      <a href="#doacao" class="block px-3 py-2 rounded-lg text-base font-semibold text-brand-green-800 hover:bg-brand-green-50">Apoiar via Pix</a>
+      <a href="#faq" class="block px-3 py-2 rounded-lg text-base font-semibold text-stone-700 hover:bg-brand-green-50">Dúvidas Frequentes</a>
+      <div class="pt-2">
+        <a href="#download" class="block w-full text-center py-3 rounded-xl font-bold text-white bg-brand-green-700">Baixar para Windows</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="sobre" class="pt-12 sm:pt-16 pb-16 sm:pb-24 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mx-auto text-center">
+        <!-- Badge Superior -->
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-green-100 text-brand-green-800 text-xs font-bold uppercase tracking-wider mb-6 border border-brand-green-200/80 shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-brand-green-600"></span>
+          Versão 1.0 Oficial para Windows • 100% Gratuito
+        </span>
+
+        <!-- Título Principal -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-stone-900 tracking-tight leading-[1.15]">
+          Vários WhatsApp no mesmo lugar, <span class="text-brand-green-700">sem travamentos</span> e sem confusão.
+        </h1>
+
+        <!-- Subtítulo -->
+        <p class="mt-6 text-lg sm:text-xl text-stone-600 leading-relaxed font-normal">
+          Inspirado na ideia do Franz, mas sem o excesso de funções inúteis. Um app desktop leve, rápido e focado 100% no WhatsApp Web, com sessões isoladas e tela dividida para quem atende e vende todos os dias.
+        </p>
+
+        <!-- Botões de Ação Hero -->
+        <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="/download" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-bold text-base text-white bg-brand-green-700 hover:bg-brand-green-800 shadow-md hover:shadow-lg transition-all active:scale-[0.98]">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.951-1.801"/>
+            </svg>
+            <div class="text-left">
+              <div class="text-xs uppercase tracking-wider font-semibold opacity-90">Download Grátis</div>
+              <div class="text-base font-extrabold leading-none mt-0.5">Instalador Windows (.exe)</div>
+            </div>
+          </a>
+
+          <a href="/download-portable" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-sm text-stone-700 bg-white hover:bg-stone-100 border border-stone-300 shadow-xs transition-all">
+            <svg class="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+            </svg>
+            <span>Versão Portátil (Sem Instalação)</span>
+          </a>
+        </div>
+
+        <!-- Badges de Confiança -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs sm:text-sm font-medium text-stone-600">
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-brand-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            Windows 10 e Windows 11 (64-bit)
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-brand-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            Sem necessidade de criar conta
+          </span>
+          <span class="inline-flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-brand-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            100% Local e Privado
+          </span>
+        </div>
+
+      </div>
+
+      <!-- App Interface Showcase Mockup -->
+      <div class="mt-14 max-w-5xl mx-auto">
+        <div class="bg-stone-900 rounded-3xl p-2.5 sm:p-4 shadow-2xl ring-1 ring-stone-900/10">
+          
+          <!-- Mockup Window Bar -->
+          <div class="flex items-center justify-between px-3 py-2 mb-2 text-stone-400 border-b border-stone-800">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+              <span class="ml-3 text-xs font-semibold text-stone-300 hidden sm:inline">dimis — Multi WhatsApp Web</span>
+            </div>
+            <div class="text-[11px] font-mono text-stone-400 bg-stone-800 px-2 py-0.5 rounded">
+              Sessões Isoladas • Split View Ativo
+            </div>
+          </div>
+
+          <!-- Mockup App Frame -->
+          <div class="bg-[#111b21] rounded-2xl overflow-hidden flex min-h-[380px] sm:min-h-[460px] border border-stone-800">
+            
+            <!-- Lateral Sidebar (estilo Franz) -->
+            <div class="w-16 sm:w-20 bg-[#18222d] border-r border-[#222e35] flex flex-col items-center py-4 justify-between shrink-0">
+              <div class="flex flex-col items-center gap-4 w-full">
+                <!-- App Icon -->
+                <div class="w-10 h-10 rounded-xl bg-brand-green-700 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
+                  D
+                </div>
+                <div class="w-8 h-px bg-stone-700/50"></div>
+                
+                <!-- Account 1 (Active) -->
+                <div class="relative group cursor-pointer">
+                  <div class="w-11 h-11 rounded-2xl bg-emerald-600 text-white font-bold flex items-center justify-center text-sm shadow-md ring-2 ring-emerald-400">
+                    💼
+                  </div>
+                  <span class="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-extrabold px-1.5 py-0.2 rounded-full ring-2 ring-[#18222d]">
+                    3
+                  </span>
+                  <div class="absolute -left-2 top-2 bottom-2 w-1 bg-emerald-400 rounded-r"></div>
+                </div>
+
+                <!-- Account 2 -->
+                <div class="relative group cursor-pointer opacity-80 hover:opacity-100">
+                  <div class="w-11 h-11 rounded-2xl bg-sky-600 text-white font-bold flex items-center justify-center text-sm">
+                    🎧
+                  </div>
+                  <span class="absolute -top-1 -right-1 bg-rose-500 text-white text-[10px] font-extrabold px-1.5 py-0.2 rounded-full ring-2 ring-[#18222d]">
+                    1
+                  </span>
+                </div>
+
+                <!-- Account 3 -->
+                <div class="relative group cursor-pointer opacity-80 hover:opacity-100">
+                  <div class="w-11 h-11 rounded-2xl bg-amber-600 text-white font-bold flex items-center justify-center text-sm">
+                    🛒
+                  </div>
+                </div>
+
+                <!-- Account 4 -->
+                <div class="relative group cursor-pointer opacity-80 hover:opacity-100">
+                  <div class="w-11 h-11 rounded-2xl bg-indigo-600 text-white font-bold flex items-center justify-center text-sm">
+                    👤
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom sidebar actions -->
+              <div class="flex flex-col items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-stone-800 text-stone-300 hover:text-white flex items-center justify-center text-xs font-bold cursor-pointer" title="Dividir tela">
+                  ◫
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-stone-800 text-emerald-400 hover:bg-emerald-700 hover:text-white flex items-center justify-center text-base font-bold cursor-pointer" title="Nova Conta">
+                  +
+                </div>
+                <a href="#doacao" class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-sm cursor-pointer" title="Apoiar com Pix">
+                  💖
+                </a>
+              </div>
+            </div>
+
+            <!-- Content Area (Mocking 2 accounts side-by-side or main view) -->
+            <div class="flex-1 bg-[#0b141a] flex flex-col">
+              <!-- Top bar inside guest -->
+              <div class="h-12 bg-[#202c33] border-b border-[#222e35] px-4 flex items-center justify-between text-stone-300 text-xs">
+                <div class="flex items-center gap-3">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                  <span class="font-bold text-stone-200">Comercial & Vendas (WhatsApp 01)</span>
+                  <span class="text-stone-400 text-[11px] hidden sm:inline">• Conectado</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="bg-[#111b21] px-2.5 py-1 rounded-md text-stone-400 text-[11px]">Memória: 84 MB</span>
+                </div>
+              </div>
+
+              <!-- Inner WhatsApp Web Preview -->
+              <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between">
+                <div class="space-y-3 max-w-xl">
+                  <div class="bg-[#202c33] text-stone-200 text-xs sm:text-sm p-3.5 rounded-2xl rounded-tl-none border border-stone-700/40 w-fit">
+                    👋 Olá! Vi o anúncio no site e gostaria de saber mais informações sobre o produto.
+                    <span class="block text-[10px] text-stone-400 text-right mt-1">09:42</span>
+                  </div>
+
+                  <div class="bg-[#005c4b] text-white text-xs sm:text-sm p-3.5 rounded-2xl rounded-tr-none ml-auto border border-emerald-600/40 w-fit">
+                    Com certeza! Como você já está falando com nosso número comercial oficial, posso te mandar o catálogo agora mesmo. 🚀
+                    <span class="block text-[10px] text-emerald-200 text-right mt-1">09:43 ✓✓</span>
+                  </div>
+                </div>
+
+                <!-- Bottom Callout in Preview -->
+                <div class="bg-[#18222d] border border-[#222e35] rounded-xl p-3 sm:p-4 text-xs text-stone-300 flex items-center justify-between gap-4 mt-6">
+                  <div class="flex items-center gap-2.5">
+                    <span class="text-base">⚡</span>
+                    <span><strong>Sessão 100% Isolada:</strong> Cada número tem seu próprio armazenamento. Não desloga, não mistura conversas e não perde mensagens ao fechar.</span>
+                  </div>
+                  <span class="text-emerald-400 font-bold whitespace-nowrap hidden sm:inline">Pronto para usar</span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Seção Comparativo: O Problema & A Nossa Proposta -->
+  <section id="comparativo" class="py-16 sm:py-24 bg-white border-y border-stone-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-green-100 text-brand-green-800 text-xs font-bold uppercase tracking-wider mb-3">
+          Por que criamos o dimis?
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+          Chega de navegadores pesados ou apps cheios de funções inúteis
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-stone-600 leading-relaxed">
+          Quem trabalha com atendimento pelo WhatsApp sofre com abas fechadas sem querer ou com agregadores de 400MB que cobram mensalidade.
+        </p>
+      </div>
+
+      <!-- Grid 3 Colunas Comparativo -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Card 1: Navegador Normal -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-stone-50 border border-stone-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-stone-200 flex items-center justify-center text-xl mb-6">
+              🌐
+            </div>
+            <h3 class="text-xl font-bold text-stone-900 mb-3">
+              Navegadores Normais
+            </h3>
+            <p class="text-xs font-semibold text-rose-600 uppercase tracking-wider mb-4">
+              Chrome, Edge, Firefox
+            </p>
+            <ul class="space-y-3 text-sm text-stone-600">
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Fácil de fechar a aba de atendimento por engano.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Notificações misturadas com abas pessoais e de trabalho.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Alto consumo de memória RAM ao manter várias abas abertas.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Exige criar dezenas de perfis separados para não misturar números.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-stone-200 text-xs text-stone-500 font-medium">
+            Desorganizado para múltiplos atendimentos.
+          </div>
+        </div>
+
+        <!-- Card 2: Franz e Outros Agregadores -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-stone-50 border border-stone-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-stone-200 flex items-center justify-center text-xl mb-6">
+              📦
+            </div>
+            <h3 class="text-xl font-bold text-stone-900 mb-3">
+              Franz & Rambox
+            </h3>
+            <p class="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-4">
+              Agregadores Genéricos
+            </p>
+            <ul class="space-y-3 text-sm text-stone-600">
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Obriga a criar login e senha na nuvem antes de usar.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Vem com mais de 50 serviços desnecessários (Slack, Skype, Gmail).</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Muito pesado (instaladores de mais de 400 MB).</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-rose-500 font-bold">✕</span>
+                <span>Tenta empurrar planos pagos e assinaturas mensais.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-stone-200 text-xs text-stone-500 font-medium">
+            Pesado e com excesso de recursos que você não precisa.
+          </div>
+        </div>
+
+        <!-- Card 3: dimis (Destaque) -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-brand-green-50 border-2 border-brand-green-600/40 shadow-sm flex flex-col justify-between relative">
+          <div class="absolute -top-3.5 right-6 bg-brand-green-700 text-white text-xs font-extrabold uppercase px-3.5 py-1 rounded-full shadow-xs">
+            Feito sob medida
+          </div>
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-brand-green-700 text-white flex items-center justify-center text-xl mb-6 shadow-xs">
+              ⚡
+            </div>
+            <h3 class="text-xl font-bold text-brand-green-900 mb-3">
+              dimis para Windows
+            </h3>
+            <p class="text-xs font-semibold text-brand-green-700 uppercase tracking-wider mb-4">
+              Foco 100% no WhatsApp
+            </p>
+            <ul class="space-y-3 text-sm text-stone-700">
+              <li class="flex items-start gap-2.5">
+                <span class="text-brand-green-700 font-bold">✓</span>
+                <span><strong>Sem cadastro:</strong> Baixe, execute e use imediatamente.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-brand-green-700 font-bold">✓</span>
+                <span><strong>Menu lateral limpo:</strong> Alterne contas com 1 clique ou atalhos (Ctrl+1, Ctrl+2).</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-brand-green-700 font-bold">✓</span>
+                <span><strong>Split View:</strong> Duas conversas lado a lado na mesma tela.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-brand-green-700 font-bold">✓</span>
+                <span><strong>Privacidade total:</strong> Nenhum dado passa por nossos servidores.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="text-brand-green-700 font-bold">✓</span>
+                <span><strong>100% Gratuito:</strong> Sem assinaturas ou travas de recursos.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-brand-green-200 text-xs text-brand-green-800 font-bold">
+            Simples, direto ao ponto e muito leve.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Seção Recursos Estruturados -->
+  <section id="recursos" class="py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-green-100 text-brand-green-800 text-xs font-bold uppercase tracking-wider mb-3">
+          Recursos Nativos
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+          Construído para quem precisa de produtividade real
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-stone-600 leading-relaxed">
+          Tudo o que você precisa para gerenciar seus números com rapidez, sem distrações.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        
+        <!-- Recurso 1 -->
+        <div class="p-6 sm:p-7 rounded-2xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow">
+          <div class="w-10 h-10 rounded-xl bg-brand-green-50 text-brand-green-800 flex items-center justify-center font-bold text-lg mb-4">
+            📱
+          </div>
+          <h3 class="text-lg font-bold text-stone-900 mb-2">Múltiplas Contas Conectadas</h3>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Adicione quantos números precisar: suporte, vendas, financeiro ou contas pessoais. Cada conta opera simultaneamente sem desconectar.
+          </p>
+        </div>
+
+        <!-- Recurso 2 -->
+        <div class="p-6 sm:p-7 rounded-2xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow">
+          <div class="w-10 h-10 rounded-xl bg-brand-green-50 text-brand-green-800 flex items-center justify-center font-bold text-lg mb-4">
+            🔒
+          </div>
+          <h3 class="text-lg font-bold text-stone-900 mb-2">Sessões Totalmente Isoladas</h3>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Cada aba utiliza uma partição local independente de cookies, cache e armazenamento. Você lê o QR Code uma vez e ele fica salvo.
+          </p>
+        </div>
+
+        <!-- Recurso 3 -->
+        <div class="p-6 sm:p-7 rounded-2xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow">
+          <div class="w-10 h-10 rounded-xl bg-brand-green-50 text-brand-green-800 flex items-center justify-center font-bold text-lg mb-4">
+            🎨
+          </div>
+          <h3 class="text-lg font-bold text-stone-900 mb-2">Fotos, Logos & Ícones Customizados</h3>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Carregue fotos e logos da sua empresa ou utilize emojis temáticos prontos para identificar cada conta com facilidade no menu lateral.
+          </p>
+        </div>
+
+        <!-- Recurso 4 -->
+        <div class="p-6 sm:p-7 rounded-2xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow">
+          <div class="w-10 h-10 rounded-xl bg-brand-green-50 text-brand-green-800 flex items-center justify-center font-bold text-lg mb-4">
+            ◫
+          </div>
+          <h3 class="text-lg font-bold text-stone-900 mb-2">Split View (Tela Dividida 50/50)</h3>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Visualize duas conversas de números diferentes ao mesmo tempo na tela. Ideal para comparar dados ou prestar atendimento ágil.
+          </p>
+        </div>
+
+        <!-- Recurso 5 -->
+        <div class="p-6 sm:p-7 rounded-2xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow">
+          <div class="w-10 h-10 rounded-xl bg-brand-green-50 text-brand-green-800 flex items-center justify-center font-bold text-lg mb-4">
+            🔔
+          </div>
+          <h3 class="text-lg font-bold text-stone-900 mb-2">Badges de Não Lidas & Tray</h3>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Contador numérico de mensagens não lidas em tempo real. Feche a janela e o app continua na bandeja do Windows recebendo áudios e alertas.
+          </p>
+        </div>
+
+        <!-- Recurso 6 -->
+        <div class="p-6 sm:p-7 rounded-2xl bg-white border border-stone-200/80 shadow-xs hover:shadow-md transition-shadow">
+          <div class="w-10 h-10 rounded-xl bg-brand-green-50 text-brand-green-800 flex items-center justify-center font-bold text-lg mb-4">
+            🎤
+          </div>
+          <h3 class="text-lg font-bold text-stone-900 mb-2">Microfone & Mídia Nativos</h3>
+          <p class="text-sm text-stone-600 leading-relaxed">
+            Permissões automáticas para envio e gravação de áudios, envio de imagens, PDFs e corretor ortográfico nativo em Português (pt-BR).
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Seção de Download Windows -->
+  <section id="download" class="py-16 sm:py-24 bg-white border-y border-stone-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-3xl mx-auto text-center mb-14">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-green-100 text-brand-green-800 text-xs font-bold uppercase tracking-wider mb-3">
+          Download Oficial
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+          Baixe o dimis para o seu computador
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-stone-600 leading-relaxed">
+          Sem instaladores de terceiros, sem propagandas e sem custos. Escolha a versão ideal para o seu uso:
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Opção 1: Instalador Completo -->
+        <div class="p-8 rounded-3xl bg-brand-green-50/50 border-2 border-brand-green-600/30 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green-100 text-brand-green-900 text-xs font-bold uppercase mb-4">
+              Recomendado
+            </div>
+            <h3 class="text-2xl font-bold text-stone-900 mb-2">
+              Instalador Windows
+            </h3>
+            <p class="text-sm text-stone-600 mb-6 leading-relaxed">
+              Cria atalho na Área de Trabalho e no Menu Iniciar automaticamente. Ideal para computadores de uso diário.
+            </p>
+            <div class="space-y-2 text-xs text-stone-500 mb-6">
+              <div><strong>Arquivo:</strong> dimis Setup 1.0.0.exe</div>
+              <div><strong>Tamanho:</strong> ~81 MB</div>
+              <div><strong>Requisito:</strong> Windows 10 ou 11 (64-bit)</div>
+            </div>
+          </div>
+
+          <a href="/download" class="inline-flex items-center justify-center gap-2 w-full py-4 px-6 rounded-2xl font-bold text-sm text-white bg-brand-green-700 hover:bg-brand-green-800 shadow-sm hover:shadow transition-all active:scale-[0.98]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            <span>Baixar Instalador (.exe)</span>
+          </a>
+        </div>
+
+        <!-- Opção 2: Portátil -->
+        <div class="p-8 rounded-3xl bg-stone-50 border border-stone-200 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-200 text-stone-700 text-xs font-bold uppercase mb-4">
+              Sem Instalação
+            </div>
+            <h3 class="text-2xl font-bold text-stone-900 mb-2">
+              Versão Portátil
+            </h3>
+            <p class="text-sm text-stone-600 mb-6 leading-relaxed">
+              Basta baixar e executar diretamente. Perfeito para rodar em pendrive ou em computadores sem permissão de administrador.
+            </p>
+            <div class="space-y-2 text-xs text-stone-500 mb-6">
+              <div><strong>Arquivo:</strong> dimis 1.0.0.exe</div>
+              <div><strong>Tamanho:</strong> ~81 MB</div>
+              <div><strong>Requisito:</strong> Windows 10 ou 11 (64-bit)</div>
+            </div>
+          </div>
+
+          <a href="/download-portable" class="inline-flex items-center justify-center gap-2 w-full py-4 px-6 rounded-2xl font-bold text-sm text-stone-800 bg-white hover:bg-stone-100 border border-stone-300 shadow-xs transition-all active:scale-[0.98]">
+            <svg class="w-5 h-5 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+            </svg>
+            <span>Baixar Versão Portátil</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Passo a passo simples -->
+      <div class="mt-14 max-w-3xl mx-auto bg-brand-cream border border-stone-200 rounded-2xl p-6 sm:p-8">
+        <h4 class="text-sm font-bold uppercase tracking-wider text-stone-500 mb-4">
+          Como começar em 3 passos:
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm text-stone-700">
+          <div>
+            <span class="font-extrabold text-brand-green-800 text-lg block mb-1">01. Baixe</span>
+            Clique no botão acima para baixar o arquivo executável para Windows.
+          </div>
+          <div>
+            <span class="font-extrabold text-brand-green-800 text-lg block mb-1">02. Conecte</span>
+            Abra o dimis, clique no botão (+) e leia o QR Code com o WhatsApp do seu celular.
+          </div>
+          <div>
+            <span class="font-extrabold text-brand-green-800 text-lg block mb-1">03. Pronto</span>
+            Adicione quantos números quiser e alterne entre eles facilmente pela barra lateral.
+          </div>
+        </div>
+      </div>
+
+      <!-- Alerta Amigável sobre o Windows SmartScreen / Defender -->
+      <div class="mt-8 max-w-3xl mx-auto bg-stone-50 border border-stone-200/90 rounded-2xl p-6 sm:p-7 shadow-xs">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-lg shrink-0 mt-0.5">
+            💡
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-base font-bold text-stone-900">
+              Aviso do Windows Defender ou do Navegador ao Instalar?
+            </h4>
+            <p class="text-xs sm:text-sm text-stone-600 leading-relaxed">
+              O <strong>dimis</strong> é um aplicativo independente, limpo e gratuito. Como é uma versão nova e não possui certificados comerciais pagos da Microsoft, o Windows SmartScreen ou o navegador pode exibir um alerta preventivo de <em>"Fornecedor desconhecido"</em>.
+            </p>
+            <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-stone-700">
+              <div class="p-3.5 rounded-xl bg-white border border-stone-200">
+                <strong class="block text-stone-900 font-bold mb-1">1. No Navegador (Chrome / Edge):</strong>
+                Se perguntar se deseja manter o arquivo, clique em <strong>Opções (⋯)</strong> &rarr; <strong>Manter</strong> &rarr; <strong>Manter mesmo assim</strong>.
+              </div>
+              <div class="p-3.5 rounded-xl bg-white border border-stone-200">
+                <strong class="block text-stone-900 font-bold mb-1">2. Na tela azul do Windows:</strong>
+                Clique no link <strong><u>Mais informações</u></strong> e depois no botão <strong>"Executar assim mesmo"</strong>. O app abrirá normalmente!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Seção de Apoio / Doação Pix (Estilo abraceanimal) -->
+  <section id="doacao" class="py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Cabeçalho da Seção -->
+      <div class="max-w-3xl mx-auto text-center mb-14">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-green-100 text-brand-green-800 text-xs font-bold uppercase tracking-wider mb-3">
+          Projeto Aberto & Independente
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+          O dimis é 100% gratuito. Apoie essa ideia!
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-stone-600 leading-relaxed">
+          Mantemos o aplicativo gratuito, sem anúncios e sem planos pagos. Se o dimis ajuda a organizar seu trabalho diário e poupar tempo, considere apoiar o projeto com uma doação via Pix.
+        </p>
+      </div>
+
+      <!-- Bloco Principal do Pix -->
+      <div class="max-w-4xl mx-auto bg-white rounded-3xl border-2 border-brand-green-600/30 shadow-xl overflow-hidden">
+        
+        <!-- Faixa Superior de Destaque -->
+        <div class="bg-gradient-to-r from-brand-green-700 to-brand-green-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-brand-warm-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span class="font-extrabold text-sm sm:text-base tracking-wide uppercase">
+              Contribuição Voluntária via Pix
+            </span>
+          </div>
+          <span class="text-xs bg-white/20 px-3 py-1 rounded-full font-semibold">
+            Sem intermediários
+          </span>
+        </div>
+
+        <div class="p-6 sm:p-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          
+          <!-- Coluna 1: Dados e Chave Pix -->
+          <div class="md:col-span-7 flex flex-col justify-center">
+            <span class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-1">
+              Chave Pix Oficial
+            </span>
+            <h3 class="text-xl sm:text-2xl font-bold text-stone-900 mb-3">
+              Ajude a manter o projeto ativo e com novas melhorias
+            </h3>
+            <p class="text-sm text-stone-600 mb-6 leading-relaxed">
+              Toda contribuição é investida diretamente nos custos de hospedagem, servidores de download e desenvolvimento de novos recursos solicitados pela comunidade.
+            </p>
+
+            <!-- Caixa com Chave Pix e Botão Copiar -->
+            <div class="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 mb-4">
+              <label for="pix-key-val" class="block text-xs font-semibold text-stone-500 mb-1">
+                Chave Pix (Chave Aleatória):
+              </label>
+              <div class="flex items-center gap-2">
+                <input id="pix-key-val" type="text" readonly value="f4f24d7c-8aac-4362-b7dc-879e6cfcf446" class="w-full bg-transparent font-mono text-xs sm:text-sm font-bold text-stone-800 select-all focus:outline-none truncate">
+                <button id="btn-copy-pix" type="button" class="inline-flex items-center justify-center shrink-0 min-h-[44px] px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-brand-green-700 hover:bg-brand-green-800 active:scale-95 transition-all shadow-xs focus:outline-none focus:ring-2 focus:ring-brand-green-600" aria-label="Copiar chave Pix">
+                  <svg id="copy-icon" class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                  </svg>
+                  <span id="btn-copy-text">Copiar Chave</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Dica -->
+            <p class="text-xs text-stone-500">
+              💡 Abra o aplicativo do seu banco, escolha <strong>Pix Copia e Cola</strong> ou aponte a câmera para o QR Code ao lado.
+            </p>
+
+            <!-- Canal de Contato -->
+            <div class="mt-6 pt-5 border-t border-stone-200/80 flex items-center gap-2 text-xs text-stone-600">
+              <span class="font-bold text-stone-700">Dúvidas ou sugestões?</span>
+              <a href="mailto:appdimis@gmail.com" class="font-bold text-brand-green-700 hover:underline">
+                appdimis@gmail.com
+              </a>
+            </div>
+          </div>
+
+          <!-- Coluna 2: QR Code Pix -->
+          <div class="md:col-span-5 flex flex-col items-center justify-center bg-stone-50 p-6 rounded-2xl border border-stone-200">
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-stone-200 mb-3">
+              <img src="pix-qrcode.png" alt="QR Code Pix do dimis" class="w-48 h-48 object-contain rounded-lg" width="192" height="192" loading="lazy">
+            </div>
+            <span class="text-xs font-semibold text-stone-600 text-center">
+              Aponte a câmera do app do seu banco
+            </span>
+            <span class="text-[11px] text-stone-400 mt-1">
+              Beneficiário: Dimitri • Chave Pix Aleatória
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Seção Perguntas Frequentes (FAQ) -->
+  <section id="faq" class="py-16 sm:py-24 bg-white border-t border-stone-200/80">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-14">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-brand-green-100 text-brand-green-800 text-xs font-bold uppercase tracking-wider mb-3">
+          Tire suas Dúvidas
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+          Perguntas Frequentes
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        
+        <!-- FAQ 1 -->
+        <details class="group bg-stone-50 rounded-2xl border border-stone-200 p-5 open:bg-white open:shadow-xs transition-colors">
+          <summary class="flex items-center justify-between font-bold text-stone-900 cursor-pointer list-none">
+            <span class="text-base sm:text-lg">O dimis é realmente gratuito?</span>
+            <span class="text-brand-green-700 font-bold text-xl group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
+            Sim! O dimis é 100% gratuito para download e uso pessoal ou comercial. Não há período de testes, assinaturas ou recursos bloqueados. Quem quiser ajudar na manutenção do projeto pode contribuir voluntariamente com qualquer valor via Pix.
+          </p>
+        </details>
+
+        <!-- FAQ 2 -->
+        <details class="group bg-stone-50 rounded-2xl border border-stone-200 p-5 open:bg-white open:shadow-xs transition-colors">
+          <summary class="flex items-center justify-between font-bold text-stone-900 cursor-pointer list-none">
+            <span class="text-base sm:text-lg">Meus dados, senhas e conversas ficam seguros?</span>
+            <span class="text-brand-green-700 font-bold text-xl group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
+            Absolutamente. O dimis não tem servidores intermediários para ler ou armazenar suas mensagens. Ele é um aplicativo cliente que carrega diretamente o WhatsApp Web oficial da Meta em contêineres locais isolados no seu próprio Windows. Todas as suas conversas continuam criptografadas de ponta a ponta pelo WhatsApp.
+          </p>
+        </details>
+
+        <!-- FAQ 3 -->
+        <details class="group bg-stone-50 rounded-2xl border border-stone-200 p-5 open:bg-white open:shadow-xs transition-colors">
+          <summary class="flex items-center justify-between font-bold text-stone-900 cursor-pointer list-none">
+            <span class="text-base sm:text-lg">Quantas contas de WhatsApp posso cadastrar?</span>
+            <span class="text-brand-green-700 font-bold text-xl group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
+            Não há limites impostos pelo aplicativo. Você pode conectar quantos números de WhatsApp a memória RAM do seu computador aguentar com tranquilidade. Como o dimis é ultra leve, ele consome uma fração do que navegadores com 20 abas abertas exigiriam.
+          </p>
+        </details>
+
+        <!-- FAQ 4 -->
+        <details class="group bg-stone-50 rounded-2xl border border-stone-200 p-5 open:bg-white open:shadow-xs transition-colors">
+          <summary class="flex items-center justify-between font-bold text-stone-900 cursor-pointer list-none">
+            <span class="text-base sm:text-lg">Há risco de meu número ser bloqueado ou banido?</span>
+            <span class="text-brand-green-700 font-bold text-xl group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
+            Não. O dimis não realiza disparos em massa automáticos, não usa robôs e não modifica a API do WhatsApp. Ele atua exatamente como um navegador oficial (Chrome) abrindo o WhatsApp Web legítimo. Para a Meta, você está apenas acessando o WhatsApp Web normalmente.
+          </p>
+        </details>
+
+        <!-- FAQ 5 -->
+        <details class="group bg-stone-50 rounded-2xl border border-stone-200 p-5 open:bg-white open:shadow-xs transition-colors">
+          <summary class="flex items-center justify-between font-bold text-stone-900 cursor-pointer list-none">
+            <span class="text-base sm:text-lg">Preciso ler o QR Code toda vez que abrir o dimis?</span>
+            <span class="text-brand-green-700 font-bold text-xl group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
+            Não! Cada conta adicionada tem uma partição persistente exclusiva. Uma vez conectado, você pode fechar o app ou reiniciar o computador e suas contas continuarão prontas para uso imediato.
+          </p>
+        </details>
+
+        <!-- FAQ 6: SmartScreen / Defender -->
+        <details class="group bg-stone-50 rounded-2xl border border-stone-200 p-5 open:bg-white open:shadow-xs transition-colors">
+          <summary class="flex items-center justify-between font-bold text-stone-900 cursor-pointer list-none">
+            <span class="text-base sm:text-lg">Por que o Windows Defender ou o navegador exibiu um aviso ao baixar?</span>
+            <span class="text-brand-green-700 font-bold text-xl group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <p class="mt-3 text-sm text-stone-600 leading-relaxed border-t border-stone-100 pt-3">
+            Isso é um procedimento padrão do Windows SmartScreen e dos navegadores para qualquer aplicativo executável (.exe) novo e independente que ainda não possui um certificado corporativo pago da Microsoft. O dimis é 100% limpo, sem propagandas, sem arquivos ocultos e roda localmente. Para instalar com tranquilidade, basta clicar em <strong>"Mais informações"</strong> e depois em <strong>"Executar assim mesmo"</strong>.
+          </p>
+        </details>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Rodapé Institucional (Estilo abraceanimal) -->
+  <footer class="bg-stone-900 text-stone-300 pt-16 pb-12 border-t border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-stone-800">
+        
+        <!-- Coluna 1: Logo & Sobre -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="icon.png" alt="dimis logo" class="w-10 h-10 rounded-xl object-contain bg-white p-1" width="40" height="40">
+            <div>
+              <span class="font-extrabold text-xl text-white tracking-tight">dimis</span>
+              <span class="block text-[11px] font-semibold text-brand-green-400 uppercase tracking-wider">Multi WhatsApp Web para Windows</span>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm text-stone-400 leading-relaxed max-w-sm">
+            Aplicativo desktop independente desenvolvido para simplificar o gerenciamento de múltiplos números de WhatsApp no Windows. Leve, sem contas na nuvem e com total privacidade.
+          </p>
+        </div>
+
+        <!-- Coluna 2: Navegação -->
+        <div class="lg:col-span-3 space-y-3">
+          <span class="block text-xs font-bold text-stone-200 uppercase tracking-wider">
+            Navegação Rápida
+          </span>
+          <ul class="space-y-2 text-xs sm:text-sm">
+            <li><a href="#sobre" class="text-stone-400 hover:text-brand-green-400 transition-colors">Sobre o dimis</a></li>
+            <li><a href="#comparativo" class="text-stone-400 hover:text-brand-green-400 transition-colors">Franz vs dimis</a></li>
+            <li><a href="#recursos" class="text-stone-400 hover:text-brand-green-400 transition-colors">Recursos Principais</a></li>
+            <li><a href="#download" class="text-stone-400 hover:text-brand-green-400 transition-colors">Download Windows</a></li>
+            <li><a href="#doacao" class="text-stone-400 hover:text-brand-green-400 transition-colors">Apoie com Pix</a></li>
+            <li><a href="#faq" class="text-stone-400 hover:text-brand-green-400 transition-colors">Dúvidas Frequentes</a></li>
+          </ul>
+        </div>
+
+        <!-- Coluna 3: Transparência & Contato -->
+        <div class="lg:col-span-4 space-y-3">
+          <span class="block text-xs font-bold text-stone-200 uppercase tracking-wider">
+            Transparência & Contato
+          </span>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Projeto independente mantido por doações da comunidade de usuários. Não coletamos nem vendemos dados.
+          </p>
+          <div class="p-3.5 rounded-xl bg-stone-800/80 border border-stone-700/60 text-xs text-stone-300 space-y-1.5">
+            <div><strong class="text-stone-100">Chave Pix Oficial:</strong> f4f24d7c-8aac-4362-b7dc-879e6cfcf446</div>
+            <div><strong class="text-stone-100">E-mail:</strong> appdimis@gmail.com</div>
+            <div><strong class="text-stone-100">Hospedagem:</strong> Cloudflare Edge Network</div>
+            <div><strong class="text-stone-100">Compatibilidade:</strong> Windows 10 e 11 (64-bit)</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Barra Inferior de Direitos e Voltar ao Topo -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+        <p>
+          © 2026 dimis. Todos os direitos reservados. Não oficial e não afiliado à Meta Platforms ou WhatsApp Inc.
+        </p>
+        <a href="#" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-stone-400 hover:text-white hover:bg-stone-800 transition-colors">
+          <span>Voltar ao topo</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Scripts: Copiar Chave Pix e Menu Mobile -->
+  <script>
+    // Copiar Pix
+    const btnCopy = document.getElementById('btn-copy-pix');
+    const inputKey = document.getElementById('pix-key-val');
+    const btnText = document.getElementById('btn-copy-text');
+    const copyIcon = document.getElementById('copy-icon');
+
+    if (btnCopy && inputKey && btnText) {
+      btnCopy.addEventListener('click', async () => {
+        const key = inputKey.value.trim();
+        try {
+          await navigator.clipboard.writeText(key);
+          showCopiedState();
+        } catch (err) {
+          inputKey.select();
+          document.execCommand('copy');
+          showCopiedState();
+        }
+      });
+    }
+
+    function showCopiedState() {
+      const originalText = btnText.textContent;
+      btnText.textContent = 'Chave Copiada! ✓';
+      btnCopy.classList.remove('bg-brand-green-700', 'hover:bg-brand-green-800');
+      btnCopy.classList.add('bg-emerald-600');
+      setTimeout(() => {
+        btnText.textContent = originalText;
+        btnCopy.classList.add('bg-brand-green-700', 'hover:bg-brand-green-800');
+        btnCopy.classList.remove('bg-emerald-600');
+      }, 3000);
+    }
+
+    // Menu Mobile Toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // Fechar menu mobile ao clicar em um link
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>

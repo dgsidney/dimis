@@ -701,7 +701,8 @@ function setupEventListeners() {
 
   // Atalhos de Teclado Globais (Ctrl+1 a Ctrl+9, Ctrl+N, Ctrl+R, etc.)
   window.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && !e.shiftKey && !e.altKey) {
+    const isModifier = e.ctrlKey || e.metaKey;
+    if (isModifier && !e.shiftKey && !e.altKey) {
       // Ctrl+1 a Ctrl+9
       const num = parseInt(e.key, 10);
       if (!isNaN(num) && num >= 1 && num <= accounts.length) {

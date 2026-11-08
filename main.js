@@ -340,6 +340,8 @@ ipcMain.handle('update-badge-total', (event, totalUnread) => {
           const overlayIcon = nativeImage.createFromBuffer(Buffer.from(badgeSvg));
           mainWindow.setOverlayIcon(overlayIcon, `${totalUnread} novas mensagens`);
         } catch (e) {}
+      } else if (process.platform === 'darwin' && app.dock) {
+        app.dock.setBadge(totalUnread > 0 ? totalUnread.toString() : '');
       }
       if (tray) {
         tray.setToolTip(`dimis - ${totalUnread} novas mensagens`);
@@ -351,6 +353,8 @@ ipcMain.handle('update-badge-total', (event, totalUnread) => {
         try {
           mainWindow.setOverlayIcon(null, '');
         } catch (e) {}
+      } else if (process.platform === 'darwin' && app.dock) {
+        app.dock.setBadge('');
       }
       if (tray) {
         tray.setToolTip('dimis - Multi WhatsApp');
