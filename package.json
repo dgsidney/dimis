@@ -19,7 +19,7 @@
     "franz-alternative",
     "dimis"
   ],
-  "author": "Dimitri",
+  "author": "Dimitri <appdimis@gmail.com>",
   "license": "MIT",
   "build": {
     "appId": "com.dimis.app",
@@ -85,6 +85,7 @@
       "gatekeeperAssess": false
     },
     "linux": {
+      "maintainer": "Dimitri <appdimis@gmail.com>",
       "target": [
         {
           "target": "AppImage",
