@@ -1,0 +1,66 @@
+{
+  "name": "dimis",
+  "version": "1.0.0",
+  "description": "Gerenciador multi-contas leve para WhatsApp Web no Windows",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "whatsapp",
+    "whatsapp-web",
+    "multi-account",
+    "franz-alternative",
+    "dimis"
+  ],
+  "author": "Dimitri",
+  "license": "MIT",
+  "build": {
+    "appId": "com.dimis.app",
+    "productName": "dimis",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "assets/**/*",
+      "main.js",
+      "preload.js",
+      "webview-preload.js",
+      "index.html",
+      "styles.css",
+      "renderer.js",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "dimis",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  }
+}

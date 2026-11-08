@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>dimis - Multi WhatsApp</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+  <div id="app-container">
+    
+    <!-- Barra Lateral (Sidebar estilo Franz) -->
+    <aside id="sidebar">
+      <!-- Topo da sidebar / Logo -->
+      <div class="sidebar-top">
+        <div class="app-logo" title="dimis - Gerenciador Multi WhatsApp">
+          <span class="logo-circle">D</span>
+        </div>
+      </div>
+
+      <!-- Lista de Contas WhatsApp -->
+      <div id="accounts-list" class="accounts-list">
+        <!-- Renderizado dinamicamente via renderer.js -->
+      </div>
+
+      <!-- Ações do rodapé da sidebar -->
+      <div class="sidebar-bottom">
+        <!-- Botão Split View -->
+        <button id="btn-split-toggle" class="sidebar-btn" title="Visualização Dividida (2 contas na tela)">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M4 4h7v16H4V4zm9 0h7v16h-7V4zm-1-2H3a1 1 0 0 0-1 1v18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-10z"/>
+          </svg>
+        </button>
+
+        <!-- Botão Adicionar Nova Conta -->
+        <button id="btn-add-account" class="sidebar-btn add-btn" title="Adicionar novo WhatsApp">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"/>
+          </svg>
+        </button>
+
+        <!-- Botão Apoiar o Projeto (Pix) -->
+        <button id="btn-donate" class="sidebar-btn donate-btn" title="Apoiar o dimis (Doação Pix)">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </button>
+
+        <!-- Botão Configurações -->
+        <button id="btn-settings" class="sidebar-btn" title="Configurações">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+            <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Área Principal de Conteúdo -->
+    <main id="main-content">
+      <!-- Barra superior do WhatsApp ativo -->
+      <header id="account-header">
+        <div class="header-left">
+          <div id="header-account-indicator" class="account-dot"></div>
+          <span id="header-account-name" class="account-title">WhatsApp 1</span>
+          <span id="header-unread-count" class="badge-pill hidden">0 novas</span>
+        </div>
+        <div class="header-actions">
+          <button id="btn-header-reload" class="header-btn" title="Recarregar esta conta (F5)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+            </svg>
+            <span>Recarregar</span>
+          </button>
+          <button id="btn-header-mute" class="header-btn" title="Silenciar notificações sonoras">
+            <svg id="icon-sound" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+            </svg>
+            <span id="label-sound">Som: Ativado</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Container das WebViews (onde o WhatsApp Web roda isolado para cada número) -->
+      <div id="webviews-container" class="webviews-container">
+        <!-- Injetado dinamicamente via renderer.js -->
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Modal Adicionar / Editar Conta -->
+  <div id="modal-account" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-account-title">Adicionar Nova Conta</h3>
+        <button id="btn-close-account-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <!-- Preview do Avatar e Upload de Imagem -->
+        <div class="avatar-preview-section">
+          <div id="account-avatar-preview" class="account-avatar-preview" style="background-color: #25D366;">
+            <span id="preview-avatar-text">W</span>
+            <img id="preview-avatar-img" class="preview-avatar-img hidden" src="" alt="Avatar">
+          </div>
+          <div class="avatar-upload-actions">
+            <button type="button" id="btn-upload-avatar" class="btn btn-secondary btn-sm">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 7v2.99s-1.99.01-2 0V7h-3s.01-1.99 0-2h3V2h2v3h3v2h-3zm-3 4V8h-3V5H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-8h-3zM5 19l3-4 2 3 3-4 4 5H5z"/></svg>
+              <span>Escolher Imagem / Logo</span>
+            </button>
+            <button type="button" id="btn-remove-avatar" class="btn btn-secondary btn-sm danger-link hidden">
+              <span>Remover Imagem</span>
+            </button>
+            <input type="file" id="input-account-icon-file" accept="image/png, image/jpeg, image/webp, image/svg+xml" style="display:none;">
+            <input type="hidden" id="input-account-icon-data" value="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="input-account-name">Identificação da Conta / Número:</label>
+          <input type="text" id="input-account-name" placeholder="Ex: Comercial, Suporte, Vendas..." maxlength="30" autofocus>
+        </div>
+
+        <!-- Ícones Rápidos Pré-definidos -->
+        <div class="form-group">
+          <label>Ícones Rápidos (ou use a foto acima):</label>
+          <div class="preset-icons-grid">
+            <button type="button" class="preset-icon-btn selected" data-icon="" title="Inicial do nome">🔤</button>
+            <button type="button" class="preset-icon-btn" data-icon="💬" title="WhatsApp / Chat">💬</button>
+            <button type="button" class="preset-icon-btn" data-icon="💼" title="Comercial / Negócios">💼</button>
+            <button type="button" class="preset-icon-btn" data-icon="🎧" title="Suporte / SAC">🎧</button>
+            <button type="button" class="preset-icon-btn" data-icon="🛒" title="Vendas / Loja">🛒</button>
+            <button type="button" class="preset-icon-btn" data-icon="👤" title="Pessoal">👤</button>
+            <button type="button" class="preset-icon-btn" data-icon="🏢" title="Empresa">🏢</button>
+            <button type="button" class="preset-icon-btn" data-icon="⭐" title="VIP / Prioridade">⭐</button>
+            <button type="button" class="preset-icon-btn" data-icon="🚀" title="Marketing">🚀</button>
+            <button type="button" class="preset-icon-btn" data-icon="🤖" title="Bot / Automação">🤖</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Cor de Fundo:</label>
+          <div class="color-picker-grid">
+            <button type="button" class="color-option selected" data-color="#25D366" style="background:#25D366;"></button>
+            <button type="button" class="color-option" data-color="#00a884" style="background:#00a884;"></button>
+            <button type="button" class="color-option" data-color="#007bff" style="background:#007bff;"></button>
+            <button type="button" class="color-option" data-color="#6f42c1" style="background:#6f42c1;"></button>
+            <button type="button" class="color-option" data-color="#e83e8c" style="background:#e83e8c;"></button>
+            <button type="button" class="color-option" data-color="#fd7e14" style="background:#fd7e14;"></button>
+            <button type="button" class="color-option" data-color="#20c997" style="background:#20c997;"></button>
+            <button type="button" class="color-option" data-color="#17a2b8" style="background:#17a2b8;"></button>
+          </div>
+          <input type="hidden" id="input-account-color" value="#25D366">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-cancel-account-modal" class="btn btn-secondary">Cancelar</button>
+        <button id="btn-save-account-modal" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Configurações -->
+  <div id="modal-settings" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Configurações do dimis</h3>
+        <button id="btn-close-settings-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-item">
+          <div class="setting-text">
+            <strong>Fechar para a bandeja (System Tray)</strong>
+            <span>Ao fechar a janela, o dimis continua em segundo plano recebendo mensagens</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="setting-close-tray" checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-text">
+            <strong>Notificações no Windows</strong>
+            <span>Exibir avisos pop-up no sistema quando novas mensagens chegarem</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="setting-notifications" checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-text">
+            <strong>Atalhos de Teclado</strong>
+            <span>Pressione <kbd>Ctrl+1</kbd>, <kbd>Ctrl+2</kbd>, etc. para alternar instantaneamente entre as contas</span>
+          </div>
+        </div>
+
+        <div class="about-dimis">
+          <p><strong>dimis v1.0.0</strong> — Aplicativo leve e veloz para múltiplos WhatsApp Web.</p>
+          <p class="text-muted">Totalmente isolado: seus dados, cookies e sessões ficam 100% no seu computador.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-save-settings" class="btn btn-primary">Salvar e Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Apoiar o Projeto (Pix) -->
+  <div id="modal-donate" class="modal-overlay hidden">
+    <div class="modal-card modal-card-donate">
+      <div class="modal-header">
+        <h3>Apoiar o dimis 💖</h3>
+        <button id="btn-close-donate-modal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body donate-body">
+        <p class="donate-intro">
+          O <strong>dimis</strong> é 100% gratuito e de código aberto. Se ele ajuda você a economizar tempo e atender melhor, considere fazer uma contribuição via Pix de qualquer valor para ajudar a manter o projeto ativo e trazer novidades! 🙏
+        </p>
+
+        <div class="pix-card">
+          <div class="pix-qrcode-container">
+            <img src="assets/pix-qrcode.png" alt="QR Code Pix" class="pix-qrcode-img">
+          </div>
+          
+          <div class="pix-key-wrapper">
+            <span class="pix-label">Chave Pix (Aleatória):</span>
+            <div class="pix-copy-box">
+              <input type="text" id="input-pix-key" value="f4f24d7c-8aac-4362-b7dc-879e6cfcf446" readonly>
+              <button type="button" id="btn-copy-pix" class="btn btn-primary btn-copy">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                <span id="text-copy-pix">Copiar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="donate-contact">
+          <span>Dúvidas, contato ou parcerias:</span>
+          <a href="mailto:appdimis@gmail.com" class="donate-email">appdimis@gmail.com</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-dismiss-donate" class="btn btn-secondary">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu de Contexto (Botão Direito na Conta) -->
+  <div id="context-menu" class="context-menu hidden">
+    <div class="menu-item" id="ctx-reload">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+      <span>Recarregar</span>
+    </div>
+    <div class="menu-item" id="ctx-edit">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+      <span>Renomear / Mudar Cor</span>
+    </div>
+    <div class="menu-item" id="ctx-mute">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+      <span id="ctx-mute-text">Silenciar</span>
+    </div>
+    <div class="menu-divider"></div>
+    <div class="menu-item danger" id="ctx-clear">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      <span>Desconectar (Resetar QR Code)</span>
+    </div>
+    <div class="menu-item danger" id="ctx-delete">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+      <span>Excluir Esta Conta</span>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
