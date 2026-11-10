@@ -1,6 +1,7 @@
 node_modules/
 dist/
 dist-artifacts/
+public/
 .wrangler/
 *.log
 .DS_Store
